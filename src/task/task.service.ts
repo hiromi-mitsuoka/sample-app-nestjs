@@ -1,23 +1,25 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { Task } from 'src/task/task.model';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { Task as PrismaTask } from '@prisma/client';
+import { Task, TaskInput } from './task.model';
 
-@Resolver(() => Task)
-export class TaskResolver {
+@Injectable()
+export class TaskService {
     constructor(private prisma: PrismaService) {}
 
-    @Query(() => [Task])
-    async tasks() {
-        return this.prisma.task.findMany();
+    async taskList(): Promise<Task[]> {
+        const tasks = await this.prisma.task.findMany();
+        return tasks.map((task: PrismaTask) => ({ 
+            ...task,
+            description: task.description ?? undefined,
+        }));
     }
 
-    @Mutation(() => Task)
-    async createTask(
-        @Args('name') name: string,
-        @Args('description') description: string,
-    ) {
-        return this.prisma.task.create({
-            data: { name, description }
-        });
+    async createTask(data: TaskInput): Promise<Task> {
+        const createdTask = await this.prisma.task.create({ data })
+        return { 
+            ...createdTask, 
+            description: createdTask.description ?? undefined
+        }
     }
 }

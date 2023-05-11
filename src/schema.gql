@@ -8,7 +8,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Mutation {
-  createTask(description: String!, name: String!): Task!
+  createTask(data: TaskInput!): Task!
 }
 
 type Query {
@@ -19,6 +19,13 @@ type Task {
   createdAt: DateTime!
   description: String
   id: ID!
+  name: String!
+  updatedAt: DateTime!
+}
+
+input TaskInput {
+  createdAt: DateTime!
+  description: String
   name: String!
   updatedAt: DateTime!
 }

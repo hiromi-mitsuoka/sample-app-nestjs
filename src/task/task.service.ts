@@ -22,4 +22,25 @@ export class TaskService {
             description: createdTask.description ?? undefined
         }
     }
+
+    async updateTask(id: number, data: TaskInput): Promise<Task> {
+        const updatedTask = await this.prisma.task.update({
+            where: { id },
+            data: { ...data, },
+        });
+        return {
+            ...updatedTask,
+            description: updatedTask.description ?? undefined
+        }
+    }
+
+    async deleteTask(id: number): Promise<Task> {
+        const deletedTask = await this.prisma.task.delete({
+            where: { id },
+        })
+        return {
+            ...deletedTask,
+            description: deletedTask.description ?? undefined
+        }
+    }
 }

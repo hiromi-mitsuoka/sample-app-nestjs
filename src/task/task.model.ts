@@ -15,6 +15,4 @@ export class TaskInput {
     @Field()
     name: string;
     description?: string;
-    createdAt: Date
-    updatedAt: Date
 }

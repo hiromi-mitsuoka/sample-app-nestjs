@@ -15,4 +15,17 @@ export class TaskResolver {
     async createTask(@Args('data') data: TaskInput): Promise<Task> {
         return this.taskService.createTask(data);
     }
+
+    @Mutation(() => Task)
+    async updateTask(
+        @Args('id') id: number,
+        @Args('data') data: TaskInput,
+    ): Promise<Task> {
+        return this.taskService.updateTask(id, data);
+    }
+
+    @Mutation(() => Task)
+    async deleteTask(@Args('id') id: number): Promise<Task> {
+        return this.taskService.deleteTask(id);
+    }
 }

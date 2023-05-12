@@ -9,6 +9,8 @@ scalar DateTime
 
 type Mutation {
   createTask(data: TaskInput!): Task!
+  deleteTask(id: Float!): Task!
+  updateTask(data: TaskInput!, id: Float!): Task!
 }
 
 type Query {
@@ -24,8 +26,6 @@ type Task {
 }
 
 input TaskInput {
-  createdAt: DateTime!
   description: String
   name: String!
-  updatedAt: DateTime!
 }
